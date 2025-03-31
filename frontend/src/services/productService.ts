@@ -1,10 +1,11 @@
 import axios from 'axios'
+import dotenv from 'dotenv'
 
-const API_URL = 'http://localhost:5000/products'
 
-
+dotenv.config()
+const API_URL = process.env.URL
 export const getProduct = async () =>{
-    return await axios.get('http://localhost:5000/products');
+    return await axios.get(`${API_URL}`);
 }
 
 

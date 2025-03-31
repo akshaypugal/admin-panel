@@ -12,8 +12,8 @@ export class products1{
     @Column()
     name!: string;
 
-    @Column("decimal")
-    price!:number;
+    @Column({ type: "decimal", nullable: false, default: 0 })  
+    price!: number;
 
     @Column('text',{array:true})
     images!: string[];

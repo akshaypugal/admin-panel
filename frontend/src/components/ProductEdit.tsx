@@ -1,29 +1,36 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { updateProduct, getProducts } from "../services/productService";
+import { updateProduct, getProduct } from "../services/productService";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 
-
 const ProductEdit = () => {
-  const { id } = useParams();
+  const { id } = useParams<{ id: string }>(); // ✅ Ensure id is a string
   const { register, handleSubmit, setValue } = useForm();
   const [images, setImages] = useState<FileList | null>(null);
 
   useEffect(() => {
+    if (!id) return; // ✅ Prevents error if id is undefined
+
     const fetchProduct = async () => {
-      const { data } = await getProducts();
-      const product = data.find((p: any) => p.id === Number(id));
-      if (product) {
-        setValue("sku", product.sku);
-        setValue("name", product.name);
-        setValue("price", product.price);
+      try {
+        const { data } = await getProduct(id); // ✅ Fetch only one product
+        if (data) {
+          setValue("sku", data.sku);
+          setValue("name", data.name);
+          setValue("price", data.price);
+        }
+      } catch (error) {
+        toast.error("Error fetching product");
       }
     };
+
     fetchProduct();
   }, [id, setValue]);
 
   const onSubmit = async (data: any) => {
+    if (!id) return; // ✅ Prevents update with undefined id
+
     const formData = new FormData();
     formData.append("sku", data.sku);
     formData.append("name", data.name);
@@ -36,7 +43,7 @@ const ProductEdit = () => {
     }
 
     try {
-      await updateProduct(id, formData);
+      await updateProduct(id, formData); // ✅ Ensured id is a string
       toast.success("Product updated successfully!");
     } catch (error) {
       toast.error("Error updating product");
