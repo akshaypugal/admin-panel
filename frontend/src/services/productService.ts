@@ -1,28 +1,24 @@
-import axios from 'axios'
-import dotenv from 'dotenv'
+import axios from "axios";
 
+const API_URL = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set in .env file
 
-dotenv.config()
-const API_URL = process.env.URL
-export const getProduct = async () =>{
-    return await axios.get(`${API_URL}`);
-}
+export const getProduct = async (id?: string) => {
+    const url = id ? `${API_URL}/${id}` : API_URL;
+    return await axios.get(url);
+};
 
-
-export const addProduct = async (formdata : FormData) =>{
-    return await axios.post(API_URL , formdata , {
-        headers: {'Content-Type' : 'multipart/form-data'},
+export const addProduct = async (formData: FormData) => {
+    return await axios.post(API_URL, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
     });
 };
 
-export const updateProduct = async (id:string , formdata: FormData) =>{
-    return await axios.put(`${API_URL}/${id}`,formdata,{
-        headers:{
-            'Content-Type' : 'multipart/form-data'
-        },
+export const updateProduct = async (id: string, formData: FormData) => {
+    return await axios.put(`${API_URL}/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
     });
 };
 
-export const deleteProduct = async (id : string) =>{
+export const deleteProduct = async (id: string) => {
     return await axios.delete(`${API_URL}/${id}`);
 };
