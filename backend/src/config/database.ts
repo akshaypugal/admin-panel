@@ -9,6 +9,8 @@ export const AppDatasource  = new DataSource({
     url:process.env.DATABASE_URL,
     synchronize:true,
     logging:true,
+    ssl: { rejectUnauthorized: false },
     entities:[products1],
+   
     
 })
