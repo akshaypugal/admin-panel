@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL; // Ensure VITE_API_URL is set in .env file
+const API_URL = import.meta.env.VITE_API_URL;
+
 
 export const getProduct = async (id?: string) => {
     const url = id ? `${API_URL}/${id}` : API_URL;
